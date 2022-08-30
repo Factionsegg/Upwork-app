@@ -10,11 +10,15 @@ import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import java.io.DataOutputStream;
 import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +28,8 @@ public class MyService extends Service {
     public static boolean isServiceRunning;
     private String CHANNEL_ID = "NOTIFICATION_CHANNEL";
     private WifiManager wifiManager;
-    private WifiConfiguration wifiConfiguration;
+    WifiConfiguration currentConfig;
+    WifiManager.LocalOnlyHotspotReservation hotspotReservation;
 
     public MyService() {
         Log.d(TAG, "constructor called");
@@ -44,9 +49,10 @@ public class MyService extends Service {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
         {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             public void run()
             {
-                turnOnOffHotspot(getApplicationContext(),true);
+                enableMobileData();
                 Log.d(TAG,"hello");
             }
         }, delay, period);
@@ -103,19 +109,20 @@ public class MyService extends Service {
         super.onDestroy();
     }
 
-    public static void turnOnOffHotspot(Context context, boolean isTurnToOn) {
-        WifiManager wifiManager = (WifiManager) context
-                .getSystemService(Context.WIFI_SERVICE);
-        WifiApControl apControl = WifiApControl.getApControl(wifiManager);
-        if (apControl != null) {
+    private void enableMobileData(){
 
-            // TURN OFF YOUR WIFI BEFORE ENABLE HOTSPOT
-            //if (isWifiOn(context) && isTurnToOn) {
-            //  turnOnOffWifi(context, false);
-            //}
-            Log.d("WIFI",String.valueOf(apControl.getWifiApState()));
-            apControl.setWifiApEnabled(apControl.getWifiApConfiguration(),
-                    isTurnToOn);
+        try {
+            String[] cmds = {"svc data enable"};
+            Process p = Runtime.getRuntime().exec("su");
+            DataOutputStream os = new DataOutputStream(p.getOutputStream());
+            for (String tmpCmd : cmds) {
+                os.writeBytes(tmpCmd + "\n");
+            }
+            os.writeBytes("exit\n");
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 }
