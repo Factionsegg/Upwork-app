@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="varunon9.me.dynamicwallpaper">
+    package="com.me.service">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name=".MyReceiver"
+            android:name="com.me.service.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter >
@@ -24,11 +24,11 @@
         </receiver>
 
         <service
-            android:name=".MyService"
+            android:name="com.me.service.MyService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name="com.me.service.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

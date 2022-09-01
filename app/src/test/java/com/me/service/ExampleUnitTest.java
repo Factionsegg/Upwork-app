@@ -1,4 +1,4 @@
-package varunon9.me.dynamicwallpaper;
+package com.me.service;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package varunon9.me.dynamicwallpaper;
+package com.me.service;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;

@@ -1,4 +1,4 @@
-package varunon9.me.dynamicwallpaper;
+package com.me.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -10,16 +10,13 @@ import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import java.io.DataOutputStream;
-import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
